@@ -24,16 +24,17 @@ jobs:
         run: npm install --legacy-peer-deps
 
       # - name: TypeScript check
-      #   run: npm run type-check 
+      #   run: npm run type-check
 
       # - name: Lint code
-      #   run: npm run lint 
+      #   run: npm run lint
 
       - name: Build Next.js app
         run: npm run build # Build Next.js app
 
       - name: Run tests
         run: npm test # Run unit tests (Jest or Vitest)
+
 
       # - name: Create test summary
       #   uses: test-summary/action@v2.4
@@ -50,9 +51,9 @@ jobs:
       #     cat "${{ github.workspace }}/results/summary.md" >> $GITHUB_STEP_SUMMARY
       #   if: always()
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-app
-          path: .next/
-          if-no-files-found: error
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: nextjs-app
+      #     path: .next/
+      #     if-no-files-found: error
