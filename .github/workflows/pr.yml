@@ -32,3 +32,11 @@ jobs:
       - name: Run tests
         run: npm test # Run unit tests (Jest or Vitest)
 
+      - name: Save build output
+        uses: actions/upload-artifact@v3
+        with:
+          name: next-build
+          path: .next
+
+      - name: Run tests
+        run: npm test
