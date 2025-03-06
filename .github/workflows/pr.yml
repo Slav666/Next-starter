@@ -1,0 +1,58 @@
+name: PR - Build / Test (Next.js)
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: TypeScript check
+        run: npm run type-check # Ensure there are no TypeScript errors
+
+      - name: Lint code
+        run: npm run lint # Run ESLint
+
+      - name: Build Next.js app
+        run: npm run build # Build Next.js app
+
+      - name: Run tests
+        run: npm test # Run unit tests (Jest or Vitest)
+
+      - name: Create test summary
+        uses: test-summary/action@v2.4
+        with:
+          paths: ${{ github.workspace }}/results/*.xml
+          output: ${{ github.workspace }}/results/summary.md
+          show: "all"
+        if: always()
+
+      - name: Add Test Results To Job Summary
+        run: |
+          echo "TEST RESULTS:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat "${{ github.workspace }}/results/summary.md" >> $GITHUB_STEP_SUMMARY
+        if: always()
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-app
+          path: .next/
+          if-no-files-found: error
