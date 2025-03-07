@@ -51,17 +51,3 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           cat "${{ github.workspace }}/results/summary.md" >> $GITHUB_STEP_SUMMARY
         if: always()
-        
-    deploy:
-        needs: build  # Only deploy if build succeeds
-        runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Deploy to Vercel
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --p
