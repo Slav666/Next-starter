@@ -21,13 +21,19 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: |
+          cd app
+          npm install --legacy-peer-deps
+
+      # - name: Install dependencies
+      #   run: npm install --legacy-peer-deps
 
       - name: Disable Next.js telemetry
         run: echo "NEXT_TELEMETRY_DISABLED=1" >> $GITHUB_ENV
 
       - name: Build Next.js app
-        run: npm run build # Build Next.js app
+        run: cd app
+          npm run build # Build Next.js app
 
       - name: Run tests
         run: npm test # Run unit tests (Jest or Vitest)
@@ -51,5 +57,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-app
-          path: .next/
+          path: app/.next/
           if-no-files-found: error
