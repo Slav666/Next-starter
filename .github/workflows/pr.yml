@@ -22,8 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd app
-          npm install --legacy-peer-deps
+          cd app && npm install --legacy-peer-deps
 
       # - name: Install dependencies
       #   run: npm install --legacy-peer-deps
@@ -32,8 +31,8 @@ jobs:
         run: echo "NEXT_TELEMETRY_DISABLED=1" >> $GITHUB_ENV
 
       - name: Build Next.js app
-        run: cd app
-          npm run build # Build Next.js app
+        run: |
+          cd app && npm run build
 
       - name: Run tests
         run: npm test # Run unit tests (Jest or Vitest)
