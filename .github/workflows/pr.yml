@@ -52,7 +52,7 @@ jobs:
           cat "${{ github.workspace }}/results/summary.md" >> $GITHUB_STEP_SUMMARY
         if: always()
         
-        deploy:
+    deploy:
         needs: build  # Only deploy if build succeeds
         runs-on: ubuntu-latest
 
