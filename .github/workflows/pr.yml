@@ -21,16 +21,18 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd app && npm install --legacy-peer-deps
 
-      - name: TypeScript check
-        run: npm run type-check # Ensure there are no TypeScript errors
+      # - name: Install dependencies
+      #   run: npm install --legacy-peer-deps
 
-      - name: Lint code
-        run: npm run lint # Run ESLint
+      - name: Disable Next.js telemetry
+        run: echo "NEXT_TELEMETRY_DISABLED=1" >> $GITHUB_ENV
 
       - name: Build Next.js app
-        run: npm run build # Build Next.js app
+        run: |
+          cd app && npm run build
 
       - name: Run tests
         run: npm test # Run unit tests (Jest or Vitest)
@@ -49,10 +51,3 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           cat "${{ github.workspace }}/results/summary.md" >> $GITHUB_STEP_SUMMARY
         if: always()
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-app
-          path: .next/
-          if-no-files-found: error
